@@ -2,13 +2,14 @@ import { Router } from 'express';
 import mongoose from 'mongoose';
 
 import { ShoppingItemModel } from '../models/ShoppingItem.js';
+import type { ShoppingItemDocument } from '../models/ShoppingItem.js';
 
 const shoppingItemsRouter = Router();
 
 //GET /items
 shoppingItemsRouter.get('/items', async (_req, res) => {
     try {
-        const itemsData = await ShoppingItemModel.find().sort({ createdAt: -1 });
+        const itemsData: ShoppingItemDocument[] = await ShoppingItemModel.find().sort({ createdAt: -1 });
         res.json(itemsData);
     } catch (error) {
         res.status(500).json({ message: 'Shopping items could not be loaded.', error });
@@ -26,7 +27,7 @@ shoppingItemsRouter.post('/items', async (req, res) => {
     }
 
     try {
-        const createdItem = await ShoppingItemModel.create({
+        const createdItem: ShoppingItemDocument = await ShoppingItemModel.create({
             name: trimmedName,
             bought: false
         });
@@ -53,7 +54,7 @@ shoppingItemsRouter.put('/items/:id', async (req, res) => {
     }
 
     try {
-        const updatedItem = await ShoppingItemModel.findByIdAndUpdate(
+        const updatedItem: ShoppingItemDocument | null = await ShoppingItemModel.findByIdAndUpdate(
             id,
             { bought },
             { new: true, runValidators: true }
@@ -80,7 +81,7 @@ shoppingItemsRouter.delete('/items/:id', async (req, res) => {
     }
 
     try {
-        const deletedItem = await ShoppingItemModel.findByIdAndDelete(id);
+        const deletedItem: ShoppingItemDocument | null = await ShoppingItemModel.findByIdAndDelete(id);
 
         if (!deletedItem) {
             res.status(404).json({ message: 'Shopping item not found.' });

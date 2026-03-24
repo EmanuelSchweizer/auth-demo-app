@@ -12,4 +12,6 @@ const ShoppingItemSchema = new mongoose.Schema<ShoppingItem>({
     createdAt: { type: Date, default: Date.now }
 });
 
+export type ShoppingItemDocument = mongoose.HydratedDocument<ShoppingItem>;
+
 export const ShoppingItemModel = mongoose.model<ShoppingItem>('ShoppingItem', ShoppingItemSchema);
