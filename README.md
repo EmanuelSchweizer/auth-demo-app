@@ -1,6 +1,6 @@
 # shopping_list_app
-![Startseite](./screenshots/home.png)
-![Neues Item Modal](./screenshots/add-item-modal.png)
+![Startseite](./screenshots/DesktopScreenshot.png)
+![Neues Item Modal](./screenshots/MobileScreenshot.png)
 
 ### Tech stack
 ## frontend
