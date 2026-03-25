@@ -1,6 +1,8 @@
 # shopping_list_app
-![Startseite](./screenshots/DesktopScreenshot.png)
-![Neues Item Modal](./screenshots/MobileScreenshot.png)
+<p align="center">
+   <img src="./screenshots/DesktopScreenshot.png" alt="Startseite" width="420" />
+   <img src="./screenshots/MobileScreenshot.png" alt="Neues Item Modal" width="220" />
+</p>
 
 ### Tech stack
 ## frontend
