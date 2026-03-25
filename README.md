@@ -3,7 +3,7 @@
 ### Tech stack
 ## frontend
 - **Framework:** Next.js, React, TypeScript
-- **Styling:** Tailwind CSS
+- **Styling:** Tailwind CSS, HeroUI
 
 ## backend
 - **server:** Node.js, Express, TypeScript
@@ -25,7 +25,11 @@ Follow these steps to run the application locally.
 ### 3. Configure backend
 - Create a backend/.env file based on backend/.env.example
 - Set MONGO_URI to your MongoDB Atlas connection string
-- Set PORT=5001 because port 5000 is often occupied on macOS
+- Set PORT e.g. 5001
+
+### 4. Configure frontend
+- Create a frontend/.env file based on frontend/.env.example
+- Set API_URL to your backend URL e.g. http://localhost:5001
 
 ### 4. Start MongoDB
 - Make sure your Atlas cluster is running and your IP is allowed in Atlas Network Access.
@@ -55,3 +59,4 @@ When the backend starts, the ShoppingItem collection is initialized automaticall
    Body: { "bought": boolean }
    
 - DELETE /items/:id deletes an item.
+

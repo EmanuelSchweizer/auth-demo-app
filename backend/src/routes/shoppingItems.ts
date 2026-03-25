@@ -41,7 +41,7 @@ shoppingItemsRouter.post('/items', async (req, res) => {
 //PUT /items/:id
 shoppingItemsRouter.put('/items/:id', async (req, res) => {
     const { id } = req.params;
-    const { bought, name } = req.body as { bought?: boolean; name?: string };
+    const { bought } = req.body as { bought?: boolean };
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
         res.status(400).json({ message: 'Invalid item id.' });
@@ -53,15 +53,10 @@ shoppingItemsRouter.put('/items/:id', async (req, res) => {
         return;
     }
 
-    if (typeof name !== 'string' || !name.trim() || name.trim().length === 0) {
-        res.status(400).json({ message: 'name is required.' });
-        return;
-    }
-
     try {
         const updatedItem: ShoppingItemDocument | null = await ShoppingItemModel.findByIdAndUpdate(
             id,
-            { bought, name: name.trim() },
+            { bought },
             { new: true, runValidators: true }
         );
 

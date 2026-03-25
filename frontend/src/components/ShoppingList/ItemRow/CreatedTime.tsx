@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { useTimeDifference } from "@/hooks/useTimeDifference";
 
 interface Props {

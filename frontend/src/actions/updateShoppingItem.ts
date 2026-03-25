@@ -6,10 +6,9 @@ import type { ShoppingItem } from "@/types";
 interface Params {
   id: string;
   bought: boolean;
-  name: string;
 }
 
-const action = async ({ id, bought, name }: Params): Promise<ShoppingItem> => {
+const action = async ({ id, bought }: Params): Promise<ShoppingItem> => {
   if (!id.trim()) {
     throw new Error("Item-ID is required.");
   }
@@ -19,7 +18,7 @@ const action = async ({ id, bought, name }: Params): Promise<ShoppingItem> => {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ bought, name: name.trim() }),
+    body: JSON.stringify({ bought }),
     cache: "no-store",
   });
 

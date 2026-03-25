@@ -5,8 +5,6 @@ import { useServerAction } from "./useServerAction";
 import { updateShoppingItem } from "@/actions/updateShoppingItem";
 import { showErrorToast, showSuccessToast, showWarningToast } from "@/utils/toast";
 
-const isInvalidName = (name: string) => name.trim() === "" || name.length > 100;
-
 export const useUpdateShoppingItem = () => {
     const [loading, setLoading] = useState(false);
     const { updateItem, shoppingItems } = useShoppingItemsStore();
@@ -21,14 +19,8 @@ export const useUpdateShoppingItem = () => {
             return;
         }
 
-        const isUnchanged = oldItem.bought === updatedItem.bought && oldItem.name === updatedItem.name;
+        const isUnchanged = oldItem.bought === updatedItem.bought;
         if (isUnchanged) {
-            setLoading(false);
-            return;
-        }
-
-        if (isInvalidName(updatedItem.name)) {
-            showWarningToast("Validation failed. Please ensure the item name is not empty and does not exceed 100 characters.");
             setLoading(false);
             return;
         }
@@ -37,8 +29,7 @@ export const useUpdateShoppingItem = () => {
         try {
             const result = await updateData({
                 id: updatedItem._id,
-                bought: updatedItem.bought,
-                name: updatedItem.name,
+                bought: updatedItem.bought
             });
 
             if (result.success) {
