@@ -1,9 +1,12 @@
 # shopping_list_app
+![Startseite](./screenshots/home.png)
+![Neues Item Modal](./screenshots/add-item-modal.png)
 
 ### Tech stack
 ## frontend
 - **Framework:** Next.js, React, TypeScript
 - **Styling:** Tailwind CSS, HeroUI
+- **UI library:** HeroUI
 
 ## backend
 - **server:** Node.js, Express, TypeScript
@@ -31,10 +34,10 @@ Follow these steps to run the application locally.
 - Create a frontend/.env file based on frontend/.env.example
 - Set API_URL to your backend URL e.g. http://localhost:5001
 
-### 4. Start MongoDB
+### 5. Start MongoDB
 - Make sure your Atlas cluster is running and your IP is allowed in Atlas Network Access.
 
-### 5. Run the app
+### 6. Run the app
 Backend:
 - cd backend
 - npm run dev

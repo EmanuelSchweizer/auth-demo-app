@@ -20,10 +20,6 @@ export const showSuccessToast = (description: string) => {
     showToast("Success", description, "success");
 };
 
-export const showWarningToast = (description: string) => {
-    showToast("Warning", description, "warning");
-};
-
 export const showErrorToast = (description: string) => {
     showToast("Error", description, "danger");
 };

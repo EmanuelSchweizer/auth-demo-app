@@ -1,11 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
 import { FaBasketShopping } from "react-icons/fa6";
 
 export const NavBar = () => {
-  const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <>

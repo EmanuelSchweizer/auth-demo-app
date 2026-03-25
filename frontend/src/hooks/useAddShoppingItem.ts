@@ -7,7 +7,7 @@ import { showErrorToast, showSuccessToast } from "@/utils/toast";
 
 export const useAddShoppingItem = () => {
     const [loading, setLoading] = useState(false);
-    const { addItem, updateItemOverTempId, removeItem, shoppingItems } = useShoppingItemsStore();
+    const { addItem, updateItemOverTempId, removeItem } = useShoppingItemsStore();
     const { Action: AddData } = useServerAction(addShoppingItem);
 
     const add = async (name: string) => {

@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useShoppingItemsStore } from "@/store/shoppingItemsStore";
 import { useServerAction } from "./useServerAction";
 import { updateShoppingItem } from "@/actions/updateShoppingItem";
-import { showErrorToast, showSuccessToast, showWarningToast } from "@/utils/toast";
+import { showErrorToast, showSuccessToast } from "@/utils/toast";
 
 export const useUpdateShoppingItem = () => {
     const [loading, setLoading] = useState(false);
