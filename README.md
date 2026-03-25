@@ -1,7 +1,7 @@
 # shopping_list_app
-<p align="center">
-   <img src="./screenshots/DesktopScreenshot.png" alt="Startseite" width="420" />
-   <img src="./screenshots/MobileScreenshot.png" alt="Neues Item Modal" width="220" />
+<p align="left">
+   <img src="./screenshots/DesktopScreenshot.png" alt="Startseite" width="500" style="vertical-align: top;" />
+   <img src="./screenshots/MobileScreenshot.png" alt="Neues Item Modal" width="220" style="vertical-align: top;" />
 </p>
 
 ### Tech stack
