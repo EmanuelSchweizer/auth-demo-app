@@ -7,7 +7,7 @@
 ### Tech stack
 ## frontend
 - **Framework:** Next.js, React, TypeScript
-- **Styling:** Tailwind CSS, HeroUI
+- **Styling:** Tailwind CSS
 - **UI library:** HeroUI
 
 ## backend
