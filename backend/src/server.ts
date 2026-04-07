@@ -2,11 +2,14 @@ import 'dotenv/config';
 import express from 'express';
 import mongoose from 'mongoose';
 
+import { initializeAdminUser } from './initializeAdminUser.js';
 import { initializeShoppingItems } from './initializeShoppingItems.js';
+import authRouter from './routes/auth.js';
 import shoppingItemsRouter from './routes/shoppingItems.js';
 
 const app = express();
 app.use(express.json());
+app.use(authRouter);
 app.use(shoppingItemsRouter);
 
 const dbURI = process.env.MONGO_URI as string;
@@ -22,6 +25,7 @@ async function startServer(): Promise<void> {
         await mongoose.connect(dbURI);
         console.log('Database is connected successfully!');
 
+        await initializeAdminUser();
         await initializeShoppingItems();
 
         app.listen(PORT, () => {
