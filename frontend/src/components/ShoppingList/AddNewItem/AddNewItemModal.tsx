@@ -1,5 +1,7 @@
 "use client";
 
+import { BUTTON_STYLES } from "@/constants/buttonStyles";
+import { INPUT_STYLES } from "@/constants/inputStyles";
 import { useAddShoppingItem } from "@/hooks/useAddShoppingItem";
 import {Button, Modal, Input} from "@heroui/react";
 import { useEffect, useState } from "react";
@@ -39,19 +41,19 @@ export function AddNewItemModal({ isOpen, setIsOpen }: Props) {
               onChange={(e) => setItemName(e.target.value)} 
               autoFocus 
               placeholder="Enter item name" 
-              className={"w-full focus:ring-violet-700 ring-violet-700"}/>
+              className={INPUT_STYLES.primary}/>
                 </form>
             </Modal.Body>
             <Modal.Footer>
                 <Button
-                  className="w-full border border-slate-300 bg-slate-100 text-slate-700 hover:bg-slate-200 hover:text-slate-900 focus-visible:ring-2 focus-visible:ring-slate-400/60"
+                  className={BUTTON_STYLES.secondary}
                   slot="close"
                 >
                 Cancel
               </Button>
               <Button 
               isDisabled={!itemName || itemName.trim() === "" || loading} 
-              className="w-full bg-violet-700 hover:bg-violet-600" 
+              className={BUTTON_STYLES.primary}
               slot="close"
               onClick={() => add(itemName)}
               >
