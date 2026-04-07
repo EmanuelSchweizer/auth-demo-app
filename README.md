@@ -31,6 +31,10 @@ Follow these steps to run the application locally.
 - Create a backend/.env file based on backend/.env.example
 - Set MONGO_URI to your MongoDB Atlas connection string
 - Set PORT e.g. 5001
+- Optional admin bootstrap variables (used only when no user exists yet):
+   - ADMIN_NAME e.g. Admin
+   - ADMIN_EMAIL e.g. admin@example.com
+   - ADMIN_PASSWORD e.g. admin123
 
 ### 4. Configure frontend
 - Create a frontend/.env file based on frontend/.env.example
@@ -49,9 +53,10 @@ Frontend:
 - npm run dev
 
 ### Database initialization
-When the backend starts, the ShoppingItem collection is initialized automatically.
+When the backend starts, initial data is created automatically.
 
 - If the collection is empty, three default items are created: Milch, Brot, Eier.
+- If the user collection is empty, initial roles (admin, user) are created and one admin user is inserted.
 - If data already exists, nothing is overwritten or inserted twice.
 
 ### Backend endpoints
