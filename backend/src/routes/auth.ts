@@ -1,7 +1,7 @@
 import { Router } from 'express';
 
 import { UserModel } from '../models/User.js';
-import { hashPassword } from '../utils/hashPassword.js';
+import { verifyPassword } from '../utils/hashPassword.js';
 
 const authRouter = Router();
 
@@ -25,9 +25,9 @@ authRouter.post('/auth/login', async (req, res) => {
             return;
         }
 
-        const incomingPasswordHash = hashPassword(normalizedPassword);
+        const isPasswordValid = await verifyPassword(user.password, normalizedPassword);
 
-        if (user.password !== incomingPasswordHash) {
+        if (!isPasswordValid) {
             res.status(401).json({ message: 'Invalid email or password.' });
             return;
         }

@@ -33,11 +33,12 @@ export async function initializeAdminUser(): Promise<void> {
     const adminName = process.env.ADMIN_NAME ?? DEFAULT_ADMIN_NAME;
     const adminEmail = process.env.ADMIN_EMAIL ?? DEFAULT_ADMIN_EMAIL;
     const adminPassword = process.env.ADMIN_PASSWORD ?? DEFAULT_ADMIN_PASSWORD;
+    const adminPasswordHash = await hashPassword(adminPassword);
 
     await UserModel.create({
         name: adminName,
         email: adminEmail,
-        password: hashPassword(adminPassword),
+        password: adminPasswordHash,
         role: adminRole._id
     });
 
