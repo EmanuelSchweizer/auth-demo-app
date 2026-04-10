@@ -2,39 +2,19 @@
 
 import { BUTTON_STYLES } from "@/constants/buttonStyles";
 import { INPUT_STYLES } from "@/constants/inputStyles";
+import { useSignInForm } from "@/hooks/useSignInForm";
 import { Button, Input } from "@heroui/react";
-import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
 
-interface CredentialsFormProps {
+interface SignInFormProps {
     csrfToken?: string;
 }
 
-export function CredentialsForm(props: CredentialsFormProps){
-    const router = useRouter();
-    const [error, setError] = useState<string | null>(null);
-
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-
-        const formData = new FormData(e.currentTarget);
-        const signInResponse = await signIn("credentials", {
-            email: formData.get("email") as string,
-            password: formData.get("password") as string,
-            redirect: false,
-        });
-        
-        if (signInResponse?.error) {
-            setError("Invalid email or password.");
-        } else {
-            router.push("/");
-        }
-    }
+export function SignInForm(props: SignInFormProps){
+    const { error, isSubmitting, handleSubmit } = useSignInForm();
 
     return (
         <form 
-        onSubmit={(e) => handleSubmit(e)} 
+        onSubmit={(e) => void handleSubmit(e)} 
         className="w-full mt-8 text-xl text-black font-semibold flex flex-col space-y-4">
             <Input
                 type="email"
@@ -53,9 +33,10 @@ export function CredentialsForm(props: CredentialsFormProps){
                 </span>}
             <Button
                 type="submit"
+                isDisabled={isSubmitting}
                 className={BUTTON_STYLES.primary}
             >
-                Log In
+                {isSubmitting ? "Logging in..." : "Log In"}
             </Button>
         </form>
     )

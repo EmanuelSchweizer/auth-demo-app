@@ -1,6 +1,7 @@
-import { CredentialsForm } from "@/components/SignIn/CredentialsForm";
-import { GoogleSignInButton } from "@/components/SignIn/GoogleSignInButton";
+import { SignInForm } from "@/components/Login/SignInForm";
+import { GoogleSignInButton } from "@/components/Login/GoogleSignInButton";
 import { Card } from "@heroui/react";
+import Link from "next/link";
 
 export const SignInPage = () => {
     return (
@@ -14,7 +15,13 @@ export const SignInPage = () => {
                     <p className="text-lg font-semibold text-center my-3 text-gray-800">
                         Or
                     </p>
-                    <CredentialsForm />
+                    <SignInForm />
+                    <p className="text-sm text-center font-medium text-gray-700 mt-6">
+                        New here?{" "}
+                        <Link href="/signUp" className="text-violet-700 hover:text-violet-600 underline">
+                            Create an account
+                        </Link>
+                    </p>
                 </Card.Content>
             </Card>
         </div>
