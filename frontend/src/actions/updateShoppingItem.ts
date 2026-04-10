@@ -1,5 +1,6 @@
 "use server";
 
+import { getUserId } from "@/actions/getUserId";
 import { env } from "process";
 import type { ShoppingItem } from "@/types";
 
@@ -9,6 +10,8 @@ interface Params {
 }
 
 const action = async ({ id, bought }: Params): Promise<ShoppingItem> => {
+  const userId = await getUserId();
+
   if (!id.trim()) {
     throw new Error("Item-ID is required.");
   }
@@ -17,6 +20,7 @@ const action = async ({ id, bought }: Params): Promise<ShoppingItem> => {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
+      "x-user-id": userId,
     },
     body: JSON.stringify({ bought }),
     cache: "no-store",

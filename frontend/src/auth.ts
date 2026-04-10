@@ -7,6 +7,46 @@ export const authOptions: NextAuthOptions = {
     pages: {
         signIn: "/signIn",
     },
+    session: {
+        strategy: "jwt",
+    },
+    callbacks: {
+        async jwt({ token, user }) {
+            const userIdFromSignIn = (user as { id?: string } | undefined)?.id;
+
+            if (userIdFromSignIn) {
+                token.userId = userIdFromSignIn;
+                return token;
+            }
+
+            if (!token.userId && token.email) {
+                const resolveUserResponse = await fetch(`${process.env.API_URL}/auth/resolve-user`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        email: token.email,
+                        name: token.name,
+                    }),
+                });
+
+                if (resolveUserResponse.ok) {
+                    const dbUser = await resolveUserResponse.json();
+                    if (dbUser?.id) {
+                        token.userId = dbUser.id;
+                    }
+                }
+            }
+
+            return token;
+        },
+        async session({ session, token }) {
+            if (session.user && typeof token.userId === "string") {
+                (session.user as { id?: string }).id = token.userId;
+            }
+
+            return session;
+        },
+    },
   providers: [
     CredentialsProvider({
         name: "Sign In",

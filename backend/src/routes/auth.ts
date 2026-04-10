@@ -2,9 +2,36 @@ import { Router } from 'express';
 
 import { RoleModel } from '../models/Role.js';
 import { UserModel } from '../models/User.js';
+import { resolveOrCreateUserByEmail } from '../utils/resolveOrCreateUserByEmail.js';
 import { hashPassword, verifyPassword } from '../utils/hashPassword.js';
 
 const authRouter = Router();
+
+// POST /auth/resolve-user
+authRouter.post('/auth/resolve-user', async (req, res) => {
+    const { email, name } = req.body as { email?: string; name?: string };
+    const normalizedEmail = email?.trim().toLowerCase();
+
+    if (!normalizedEmail) {
+        res.status(400).json({ message: 'email is required.' });
+        return;
+    }
+
+    try {
+        const user = await resolveOrCreateUserByEmail({
+            email: normalizedEmail,
+            name
+        });
+
+        res.status(200).json({
+            id: user._id,
+            name: user.name,
+            email: user.email
+        });
+    } catch (error) {
+        res.status(500).json({ message: 'User could not be resolved.', error });
+    }
+});
 
 // POST /auth/signup
 authRouter.post('/auth/signup', async (req, res) => {
