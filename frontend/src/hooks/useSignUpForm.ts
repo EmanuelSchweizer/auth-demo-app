@@ -13,6 +13,10 @@ type SignUpFields = {
     confirmPassword: string;
 };
 
+function isValidEmail(email: string): boolean {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
 function parseSignUpFields(formData: FormData): SignUpFields {
     return {
         name: (formData.get("name") as string | null)?.trim() ?? "",
@@ -25,6 +29,10 @@ function parseSignUpFields(formData: FormData): SignUpFields {
 function validateSignUpFields(fields: SignUpFields): string | null {
     if (!fields.name || !fields.email || !fields.password || !fields.confirmPassword) {
         return "All fields are required.";
+    }
+
+    if (!isValidEmail(fields.email)) {
+        return "Please enter a valid email address.";
     }
 
     if (!isStrongPassword(fields.password)) {

@@ -5,7 +5,11 @@ import { FcGoogle } from "react-icons/fc";
 import { signIn } from "next-auth/react";
 import { Button } from "@heroui/react";
 
-export const GoogleSignInButton = () => {
+interface GoogleSignInButtonProps {
+    label?: string;
+}
+
+export const GoogleSignInButton = ({ label = "Sign in with Google" }: GoogleSignInButtonProps) => {
     return (
         <Button
             variant="primary"
@@ -13,7 +17,7 @@ export const GoogleSignInButton = () => {
             onClick={() => signIn("google")}
         >
             <FcGoogle className="w-5 h-5 mr-2" />
-            Sign in with Google
+            {label}
         </Button>
     );
 }

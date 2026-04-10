@@ -1,3 +1,4 @@
+import { GoogleSignInButton } from "@/components/Login/GoogleSignInButton";
 import { SignUpForm } from "@/components/Login/SignUpForm";
 import { Card } from "@heroui/react";
 
@@ -9,6 +10,10 @@ export const SignUpPage = () => {
                     <h2 className="text-2xl font-bold text-center text-gray-800">Create Account</h2>
                 </Card.Header>
                 <Card.Content className="flex flex-col items-center">
+                    <GoogleSignInButton label="Sign up with Google" />
+                    <p className="text-lg font-semibold text-center my-3 text-gray-800">
+                        Or
+                    </p>
                     <SignUpForm />
                 </Card.Content>
             </Card>

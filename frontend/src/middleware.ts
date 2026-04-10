@@ -1,7 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { getToken } from "next-auth/jwt";
 
-const PUBLIC_PATHS = ["/signIn"];
+const PUBLIC_PATHS = ["/signIn", "/signUp"];
 
 function isPublicPath(pathname: string): boolean {
     if (PUBLIC_PATHS.includes(pathname)) {
@@ -32,7 +32,7 @@ export async function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl;
     const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });
 
-    if (pathname === "/signIn" && token) {
+    if (PUBLIC_PATHS.includes(pathname) && token) {
         return NextResponse.redirect(new URL("/", request.url));
     }
 

@@ -22,7 +22,8 @@
       "@/*": ["./src/*"],
       "@/actions": ["./src/actions"],
       "@/components": ["./src/components"],
-      "@/utils": ["./src/utils"]
+      "@/utils": ["./src/utils"],
+      "@/constants": ["./src/constants"]
     }
   },
   "include": [
