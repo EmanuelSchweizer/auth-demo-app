@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import rateLimit from 'express-rate-limit';
 
 import { RoleModel } from '../models/Role.js';
 import { UserModel } from '../models/User.js';
@@ -6,6 +7,32 @@ import { resolveOrCreateUserByEmail } from '../utils/resolveOrCreateUserByEmail.
 import { hashPassword, verifyPassword } from '../utils/hashPassword.js';
 
 const authRouter = Router();
+
+const loginLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 10,
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: { message: 'Too many login attempts. Please try again later.' }
+});
+
+const signUpLimiter = rateLimit({
+    windowMs: 60 * 60 * 1000,
+    max: 10,
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: { message: 'Too many sign up attempts. Please try again later.' }
+});
+
+function isStrongPassword(password: string): boolean {
+    const hasMinLength = password.length >= 10;
+    const hasUppercase = /[A-Z]/.test(password);
+    const hasLowercase = /[a-z]/.test(password);
+    const hasNumber = /\d/.test(password);
+    const hasSpecialCharacter = /[^A-Za-z0-9]/.test(password);
+
+    return hasMinLength && hasUppercase && hasLowercase && hasNumber && hasSpecialCharacter;
+}
 
 // POST /auth/resolve-user
 authRouter.post('/auth/resolve-user', async (req, res) => {
@@ -37,7 +64,7 @@ authRouter.post('/auth/resolve-user', async (req, res) => {
 });
 
 // POST /auth/signup
-authRouter.post('/auth/signup', async (req, res) => {
+authRouter.post('/auth/signup', signUpLimiter, async (req, res) => {
     const { name, email, password } = req.body as {
         name?: string;
         email?: string;
@@ -46,15 +73,15 @@ authRouter.post('/auth/signup', async (req, res) => {
 
     const normalizedName = name?.trim();
     const normalizedEmail = email?.trim().toLowerCase();
-    const normalizedPassword = password?.trim();
+    const normalizedPassword = password;
 
     if (!normalizedName || !normalizedEmail || !normalizedPassword) {
         res.status(400).json({ message: 'name, email and password are required.' });
         return;
     }
 
-    if (normalizedPassword.length < 6) {
-        res.status(400).json({ message: 'Password must be at least 6 characters long.' });
+    if (!isStrongPassword(normalizedPassword)) {
+        res.status(400).json({ message: 'Password must be at least 10 characters and include uppercase, lowercase, number, and special character.' });
         return;
     }
 
@@ -107,11 +134,11 @@ authRouter.post('/auth/signup', async (req, res) => {
 });
 
 // POST /auth/login
-authRouter.post('/auth/login', async (req, res) => {
+authRouter.post('/auth/login', loginLimiter, async (req, res) => {
     const { email, password } = req.body as { email?: string; password?: string };
 
     const normalizedEmail = email?.trim().toLowerCase();
-    const normalizedPassword = password?.trim();
+    const normalizedPassword = password;
 
     if (!normalizedEmail || !normalizedPassword) {
         res.status(400).json({ message: 'email and password are required.' });
