@@ -11,10 +11,11 @@ export const authOptions: NextAuthOptions = {
         strategy: "jwt",
     },
     callbacks: {
-        async jwt({ token, user }) {
+        async jwt({ token, user, account }) {
             const userIdFromSignIn = (user as { id?: string } | undefined)?.id;
+            const isCredentialsSignIn = account?.provider === "credentials";
 
-            if (userIdFromSignIn) {
+            if (userIdFromSignIn && isCredentialsSignIn) {
                 token.userId = userIdFromSignIn;
                 return token;
             }
