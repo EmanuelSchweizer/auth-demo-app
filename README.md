@@ -1,4 +1,12 @@
 # shopping_list_app
+
+### Quick Overview
+- The main focus of this project is a complete login system.
+- Users can register and then sign in.
+- Sign-in works either with email and password or with Google.
+- OAuth and JWT are used for authentication and session handling.
+- Admins have access to an admin panel where they can manage and delete users.
+
 <p align="left">
    <img src="./screenshots/DesktopScreenshot.png" alt="Startseite" width="500" style="vertical-align: top;" />
    <img src="./screenshots/MobileScreenshot.png" alt="Neues Item Modal" width="220" style="vertical-align: top;" />
@@ -7,13 +15,6 @@
 <p align="left">
    <img src="./screenshots/loginPage.png" alt="Sign in page" width="500" style="vertical-align: top;" />
 </p>
-
-### Focus
-- A main focus of this project was implementing an authentication system with NextAuth.
-- Users can sign in either with email and password or with Google OAuth.
-- Protected routes in the frontend redirect unauthenticated users to the sign-in page.
-- In the backend, passwords are hashed with Argon2id for security before they are stored.
-- Only the hash is saved in the database, not the plain-text password.
 
 ### Tech stack
 ## frontend
