@@ -12,11 +12,12 @@ export const authOptions: NextAuthOptions = {
     },
     callbacks: {
         async jwt({ token, user, account }) {
-            const userIdFromSignIn = (user as { id?: string } | undefined)?.id;
+            const userFromSignIn = user as { id?: string; isAdmin?: boolean } | undefined;
             const isCredentialsSignIn = account?.provider === "credentials";
 
-            if (userIdFromSignIn && isCredentialsSignIn) {
-                token.userId = userIdFromSignIn;
+            if (userFromSignIn?.id && isCredentialsSignIn) {
+                token.userId = userFromSignIn.id;
+                token.isAdmin = userFromSignIn.isAdmin ?? false;
                 return token;
             }
 
@@ -31,9 +32,10 @@ export const authOptions: NextAuthOptions = {
                 });
 
                 if (resolveUserResponse.ok) {
-                    const dbUser = await resolveUserResponse.json();
+                    const dbUser = await resolveUserResponse.json() as { id?: string; roleName?: string };
                     if (dbUser?.id) {
                         token.userId = dbUser.id;
+                        token.isAdmin = dbUser.roleName === 'admin';
                     }
                 }
             }
@@ -42,7 +44,9 @@ export const authOptions: NextAuthOptions = {
         },
         async session({ session, token }) {
             if (session.user && typeof token.userId === "string") {
-                (session.user as { id?: string }).id = token.userId;
+                const user = session.user as { id?: string; isAdmin?: boolean };
+                user.id = token.userId;
+                user.isAdmin = token.isAdmin === true;
             }
 
             return session;
@@ -78,6 +82,7 @@ export const authOptions: NextAuthOptions = {
                     id: dbUser.id,
                     name: dbUser.name,
                     email: dbUser.email,
+                    isAdmin: dbUser.roleName === 'admin',
                 }
             }
 

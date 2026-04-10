@@ -23,10 +23,13 @@ authRouter.post('/auth/resolve-user', async (req, res) => {
             name
         });
 
+        const populated = await UserModel.findById(user._id).populate<{ role: { name: string } }>('role');
+
         res.status(200).json({
             id: user._id,
             name: user.name,
-            email: user.email
+            email: user.email,
+            roleName: populated?.role.name ?? 'user',
         });
     } catch (error) {
         res.status(500).json({ message: 'User could not be resolved.', error });
@@ -116,7 +119,7 @@ authRouter.post('/auth/login', async (req, res) => {
     }
 
     try {
-        const user = await UserModel.findOne({ email: normalizedEmail });
+        const user = await UserModel.findOne({ email: normalizedEmail }).populate<{ role: { name: string } }>('role');
 
         if (!user) {
             res.status(401).json({ message: 'Invalid email or password.' });
@@ -134,7 +137,7 @@ authRouter.post('/auth/login', async (req, res) => {
             id: user._id,
             name: user.name,
             email: user.email,
-            role: user.role
+            roleName: user.role.name,
         });
     } catch (error) {
         res.status(500).json({ message: 'Login failed.', error });

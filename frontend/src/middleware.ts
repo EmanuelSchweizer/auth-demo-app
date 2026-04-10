@@ -46,6 +46,13 @@ export async function middleware(request: NextRequest) {
         return NextResponse.redirect(signInUrl);
     }
 
+    if (pathname.startsWith("/admin")) {
+        const isAdmin = (token as { isAdmin?: boolean }).isAdmin === true;
+        if (!isAdmin) {
+            return NextResponse.redirect(new URL("/", request.url));
+        }
+    }
+
     return NextResponse.next();
 }
 

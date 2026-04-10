@@ -11,6 +11,7 @@ export const NavBar = () => {
   const router = useRouter();
   const userName = session?.user?.name?.trim() || session?.user?.email || "User";
   const isAuthenticated = status === "authenticated";
+  const isAdmin = (session?.user as { isAdmin?: boolean })?.isAdmin === true;
 
   const handleLogout = async () => {
     await signOut({ redirect: false });
@@ -32,6 +33,11 @@ export const NavBar = () => {
             </div>
             {isAuthenticated ? (
               <div className="flex items-center gap-3">
+                {isAdmin && (
+                  <Link href="/admin" className="text-sm font-medium text-violet-700 hover:text-violet-600 underline">
+                    Admin Panel
+                  </Link>
+                )}
                 <span className="text-sm font-semibold text-gray-700">{userName}</span>
                 <Button
                   size="sm"

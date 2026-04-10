@@ -6,11 +6,13 @@ import { initializeAdminUser } from './initializeAdminUser.js';
 import { initializeShoppingItems } from './initializeShoppingItems.js';
 import authRouter from './routes/auth.js';
 import shoppingItemsRouter from './routes/shoppingItems.js';
+import adminRouter from './routes/admin.js';
 
 const app = express();
 app.use(express.json());
 app.use(authRouter);
 app.use(shoppingItemsRouter);
+app.use(adminRouter);
 
 const dbURI = process.env.MONGO_URI as string;
 const PORT = process.env.PORT || 5001;
