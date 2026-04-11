@@ -6,6 +6,8 @@ import { ShoppingItemModel } from '../models/ShoppingItem.js';
 import { resolveRequestUser } from '../utils/resolveRequestUser.js';
 
 const adminRouter = Router();
+const DEFAULT_DEMO_ADMIN_EMAIL = 'admin-demo@example.com';
+const DEMO_ADMIN_EMAIL = (process.env.DEMO_ADMIN_EMAIL ?? DEFAULT_DEMO_ADMIN_EMAIL).trim().toLowerCase();
 
 // Require admin role for all routes in this router
 adminRouter.use(async (req, res, next) => {
@@ -17,6 +19,8 @@ adminRouter.use(async (req, res, next) => {
         res.status(403).json({ message: 'Access denied. Admin role required.' });
         return;
     }
+
+    res.locals.requestAdminEmail = populated.email.trim().toLowerCase();
 
     next();
 });
@@ -41,6 +45,12 @@ adminRouter.get('/admin/users', async (_req, res) => {
 
 // DELETE /admin/users/:id
 adminRouter.delete('/admin/users/:id', async (req, res) => {
+    const requestAdminEmail = (res.locals.requestAdminEmail as string | undefined)?.trim().toLowerCase();
+    if (requestAdminEmail === DEMO_ADMIN_EMAIL) {
+        res.status(403).json({ message: 'Demo admin is read-only and cannot delete users.' });
+        return;
+    }
+
     const { id } = req.params;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {

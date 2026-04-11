@@ -14,6 +14,9 @@ export const UserTable = () => {
   const [deletingId, setDeletingId] = useState<string | null>(null);
 
   const currentUserId = (session?.user as { id?: string })?.id;
+  const currentUserEmail = (session?.user?.email ?? "").trim().toLowerCase();
+  const demoAdminEmail = (process.env.NEXT_PUBLIC_DEMO_ADMIN_EMAIL ?? "admin-demo@example.com").trim().toLowerCase();
+  const isDemoAdmin = currentUserEmail === demoAdminEmail;
 
   useEffect(() => {
     getUsers()
@@ -70,7 +73,7 @@ export const UserTable = () => {
               {new Date(user.createdAt).toLocaleDateString()}
             </td>
             <td className="py-3">
-              {user.id !== currentUserId && (
+              {!isDemoAdmin && user.id !== currentUserId && (
                 <Button
                   size="sm"
                     className="text-red-600 border border-red-200 hover:bg-red-50 bg-transparent"
