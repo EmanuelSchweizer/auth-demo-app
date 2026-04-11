@@ -94,13 +94,37 @@ When the backend starts, initial data is created automatically.
    - Password: demoadmin123
 
 ### Backend endpoints
-- GET /items
 
-- POST /items
-   Body: { "name": string }
+All endpoints except `/health` require an `x-user-id` header with the authenticated user's MongoDB ObjectId.
 
-- PUT /items/:id updates the bought status of an item.
-   Body: { "bought": boolean }
-   
-- DELETE /items/:id deletes an item.
+#### Health
+- `GET /health` — Returns server status. No authentication required.
+
+#### Auth
+- `POST /auth/signup` — Register a new user.  
+  Body: `{ "name": string, "email": string, "password": string }`  
+  Rate limit: 10 requests / hour.
+
+- `POST /auth/login` — Log in with email and password.  
+  Body: `{ "email": string, "password": string }`  
+  Rate limit: 10 requests / 15 minutes.
+
+- `POST /auth/resolve-user` — Resolve or create a user by email (used for Google OAuth).  
+  Body: `{ "email": string, "name?": string }`
+
+#### Shopping Items
+- `GET /items` — Returns all items for the authenticated user.
+
+- `POST /items` — Creates a new item.  
+  Body: `{ "name": string }`
+
+- `PUT /items/:id` — Updates the bought status of an item.  
+  Body: `{ "bought": boolean }`
+
+- `DELETE /items/:id` — Deletes an item.
+
+#### Admin (admin role required)
+- `GET /admin/users` — Returns all users.
+
+- `DELETE /admin/users/:id` — Deletes a user and all their items. Not available to the demo admin.
 
