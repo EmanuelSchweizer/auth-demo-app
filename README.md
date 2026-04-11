@@ -9,6 +9,15 @@
 - A demo admin user can access the admin panel in read-only mode (cannot delete users).
 - Backend tests are implemented for authentication routes and auth-related utilities.
 
+## Live Demo
+
+🔗 [https://auth-demo-app-frontend.vercel.app](https://auth-demo-app-frontend.vercel.app)
+
+### Demo-Zugangsdaten
+| | Email | Passwort |
+|---|---|---|
+| **Demo Admin** | admin-demo@example.com | demoadmin123 |
+
 ### Screenshots
 <img src="./screenshots/ShoppingList.png" alt="Startseite" width="500" style="vertical-align: top;" />
 <img src="./screenshots/MobileView.png" alt="Neues Item Modal" width="500" style="vertical-align: top;" />
