@@ -40,6 +40,12 @@ export function useSignInForm() {
                 return;
             }
 
+            // Refresh to ensure session is fully loaded before redirecting
+            router.refresh();
+            
+            // Small delay to allow session to be established
+            await new Promise(resolve => setTimeout(resolve, 100));
+            
             router.push("/");
         } finally {
             setIsSubmitting(false);
