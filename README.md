@@ -1,17 +1,17 @@
 # Full-stack authentication demo with user management
 
 ## 🚀 Overview
-Full-stack web application demonstrating OAuth2 authentication, user management, and role-based access.
+# Full-Stack Auth System with User Management
 
 ## ✨ Key Features
 
 - Google OAuth & Email/Password authentication
-- JWT-based session handling
-- User persistence with MongoDB
-- Admin panel for user management (role-based access)
+- JWT-based authentication & session management
+- Role-based access control (admin/user)
+- Admin panel for user management
 - Read-only demo admin account
-- Backend API with authentication & authorization
-- Deployed application (Vercel)
+- REST API with authentication & authorization
+- Deployed via Vercel
 
 ## 🛠 Tech Stack
 
@@ -33,45 +33,20 @@ Demo Account:
 - Password: demoadmin123
 
 ### Screenshots
-<img src="./screenshots/ShoppingList.png" alt="Startseite" width="500" style="vertical-align: top;" />
-<img src="./screenshots/MobileView.png" alt="Neues Item Modal" width="500" style="vertical-align: top;" />
-<img src="./screenshots/SignInPage.png" alt="Neues Item Modal" width="500" style="vertical-align: top;" />
-<img src="./screenshots/SignUpPage.png" alt="Neues Item Modal" width="500" style="vertical-align: top;" />
-<img src="./screenshots/AdminPanel.png" alt="Neues Item Modal" width="500" style="vertical-align: top;" />
+<img src="./screenshots/ShoppingList.png" alt="Dashboard view" width="500" style="vertical-align: top;" />
+<img src="./screenshots/MobileView.png" alt="Mobile view" width="500" style="vertical-align: top;" />
+<img src="./screenshots/SignInPage.png" alt="Login page" width="500" style="vertical-align: top;" />
+<img src="./screenshots/SignUpPage.png" alt="Registration page" width="500" style="vertical-align: top;" />
+<img src="./screenshots/AdminPanel.png" alt="Admin panel user management" width="500" style="vertical-align: top;" />
 
 
-### Backend endpoints
+### Backend API (Overview)
 
-All endpoints except `/health` require an `x-user-id` header with the authenticated user's MongoDB ObjectId.
+The backend provides REST endpoints for authentication, user management, and item handling.
 
-#### Health
-- `GET /health` — Returns server status. No authentication required.
+Main endpoints include:
 
-#### Auth
-- `POST /auth/signup` — Register a new user.  
-  Body: `{ "name": string, "email": string, "password": string }`  
-  Rate limit: 10 requests / hour.
-
-- `POST /auth/login` — Log in with email and password.  
-  Body: `{ "email": string, "password": string }`  
-  Rate limit: 10 requests / 15 minutes.
-
-- `POST /auth/resolve-user` — Resolve or create a user by email (used for Google OAuth).  
-  Body: `{ "email": string, "name?": string }`
-
-#### Shopping Items
-- `GET /items` — Returns all items for the authenticated user.
-
-- `POST /items` — Creates a new item.  
-  Body: `{ "name": string }`
-
-- `PUT /items/:id` — Updates the bought status of an item.  
-  Body: `{ "bought": boolean }`
-
-- `DELETE /items/:id` — Deletes an item.
-
-#### Admin (admin role required)
-- `GET /admin/users` — Returns all users.
-
-- `DELETE /admin/users/:id` — Deletes a user and all their items. Not available to the demo admin.
+- Auth: signup, login, OAuth user resolution
+- Items: CRUD operations
+- Admin: user management (admin only)
 
