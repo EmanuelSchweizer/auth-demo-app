@@ -23,7 +23,7 @@ export async function resolveOrCreateUserByEmail({ email, name }: Params): Promi
     const userRole = await RoleModel.findOneAndUpdate(
         { name: 'user' },
         { name: 'user' },
-        { upsert: true, new: true, setDefaultsOnInsert: true }
+        { upsert: true, returnDocument: 'after', setDefaultsOnInsert: true }
     );
 
     if (!userRole) {

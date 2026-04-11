@@ -14,15 +14,15 @@ export async function initializeAdminUser(): Promise<void> {
     }
 
     const [adminRole] = await Promise.all([
-        RoleModel.findOneAndUpdate(
+            RoleModel.findOneAndUpdate(
             { name: 'admin' },
             { name: 'admin' },
-            { upsert: true, new: true, setDefaultsOnInsert: true }
+                { upsert: true, returnDocument: 'after', setDefaultsOnInsert: true }
         ),
         RoleModel.findOneAndUpdate(
             { name: 'user' },
             { name: 'user' },
-            { upsert: true, new: true, setDefaultsOnInsert: true }
+                { upsert: true, returnDocument: 'after', setDefaultsOnInsert: true }
         )
     ]);
 
