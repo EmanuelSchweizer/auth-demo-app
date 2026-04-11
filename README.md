@@ -1,4 +1,4 @@
-# shopping_list_app
+# auth-demo-app
 
 ### Quick Overview
 - The main focus of this project is a complete login system.
