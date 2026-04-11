@@ -15,6 +15,7 @@ export const NavBar = () => {
 
   const handleLogout = async () => {
     await signOut({ redirect: false });
+    router.refresh();
     router.push("/signIn");
   };
 
