@@ -22,7 +22,8 @@
       "@/*": ["./src/*"],
       "@/actions": ["./src/actions"],
       "@/components": ["./src/components"],
-      "@/utils": ["./src/utils"]
+      "@/utils": ["./src/utils"],
+      "@/constants": ["./src/constants"]
     }
   },
   "include": [
@@ -32,6 +33,6 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "**/*.mts"
-  ],
+, "src/app/api/auth/[...nextauth]"  ],
   "exclude": ["node_modules"]
 }

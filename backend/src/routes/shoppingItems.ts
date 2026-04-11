@@ -3,13 +3,19 @@ import mongoose from 'mongoose';
 
 import { ShoppingItemModel } from '../models/ShoppingItem.js';
 import type { ShoppingItemDocument } from '../models/ShoppingItem.js';
+import { resolveRequestUser } from '../utils/resolveRequestUser.js';
 
 const shoppingItemsRouter = Router();
 
 //GET /items
-shoppingItemsRouter.get('/items', async (_req, res) => {
+shoppingItemsRouter.get('/items', async (req, res) => {
     try {
-        const itemsData: ShoppingItemDocument[] = await ShoppingItemModel.find().sort({ createdAt: -1 });
+        const requestUser = await resolveRequestUser(req, res);
+        if (!requestUser) {
+            return;
+        }
+
+        const itemsData: ShoppingItemDocument[] = await ShoppingItemModel.find({ user: requestUser._id }).sort({ createdAt: -1 });
         res.json(itemsData);
     } catch (error) {
         res.status(500).json({ message: 'Shopping items could not be loaded.', error });
@@ -27,9 +33,15 @@ shoppingItemsRouter.post('/items', async (req, res) => {
     }
 
     try {
+        const requestUser = await resolveRequestUser(req, res);
+        if (!requestUser) {
+            return;
+        }
+
         const createdItem: ShoppingItemDocument = await ShoppingItemModel.create({
             name: trimmedName,
-            bought: false
+            bought: false,
+            user: requestUser._id
         });
 
         res.status(201).json(createdItem);
@@ -54,8 +66,13 @@ shoppingItemsRouter.put('/items/:id', async (req, res) => {
     }
 
     try {
-        const updatedItem: ShoppingItemDocument | null = await ShoppingItemModel.findByIdAndUpdate(
-            id,
+        const requestUser = await resolveRequestUser(req, res);
+        if (!requestUser) {
+            return;
+        }
+
+        const updatedItem: ShoppingItemDocument | null = await ShoppingItemModel.findOneAndUpdate(
+            { _id: id, user: requestUser._id },
             { bought },
             { new: true, runValidators: true }
         );
@@ -81,7 +98,12 @@ shoppingItemsRouter.delete('/items/:id', async (req, res) => {
     }
 
     try {
-        const deletedItem: ShoppingItemDocument | null = await ShoppingItemModel.findByIdAndDelete(id);
+        const requestUser = await resolveRequestUser(req, res);
+        if (!requestUser) {
+            return;
+        }
+
+        const deletedItem: ShoppingItemDocument | null = await ShoppingItemModel.findOneAndDelete({ _id: id, user: requestUser._id });
 
         if (!deletedItem) {
             res.status(404).json({ message: 'Shopping item not found.' });
