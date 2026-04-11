@@ -100,10 +100,13 @@ export function useSignUpForm() {
             });
 
             if (signInResponse?.error) {
+                router.refresh();
                 router.push("/signIn");
                 return;
             }
 
+            router.refresh();
+            await new Promise(resolve => setTimeout(resolve, 100));
             router.push("/");
         } catch {
             setError(GENERIC_SIGN_UP_ERROR);
