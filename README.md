@@ -1,7 +1,7 @@
-# Full-stack authentication demo with user management
+# Full-Stack Auth System with User Management
 
 ## 🚀 Overview
-# Full-Stack Auth System with User Management
+Full-stack web application demonstrating OAuth2 authentication, user management, and role-based access.
 
 ## ✨ Key Features
 
