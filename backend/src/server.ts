@@ -5,7 +5,7 @@ import { initializeAdminUser } from './initializeAdminUser.js';
 import { initializeShoppingItems } from './initializeShoppingItems.js';
 import app from './app.js';
 
-const dbURI = process.env.MONGO_URI as string;
+const dbURI = process.env.MONGODB_URI as string;
 const PORT = process.env.PORT || 5001;
 
 if (!dbURI) {
