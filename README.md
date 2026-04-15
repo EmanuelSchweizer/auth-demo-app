@@ -1,9 +1,9 @@
 # Full-Stack Auth System with User Management
 
-## 🚀 Overview
+## Overview
 Full-stack web application demonstrating OAuth2 authentication, user management, and role-based access.
 
-## ✨ Key Features
+## Key Features
 
 - Google OAuth & Email/Password authentication
 - JWT-based authentication & session management
@@ -13,7 +13,7 @@ Full-stack web application demonstrating OAuth2 authentication, user management,
 - REST API with authentication & authorization
 - Deployed via Vercel
 
-## 🛠 Tech Stack
+## Tech Stack
 
 ## Frontend
 - **Framework:** Next.js, React, TypeScript
@@ -24,7 +24,7 @@ Full-stack web application demonstrating OAuth2 authentication, user management,
 - **server:** Node.js, Express, TypeScript
 - **database:** MongoDB, Mongoose
 
-## 🌐 Live Demo
+## Live Demo
 
 👉 [https://auth-demo-app-frontend.vercel.app](https://auth-demo-app-frontend.vercel.app)
 
