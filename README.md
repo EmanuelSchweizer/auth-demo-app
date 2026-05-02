@@ -21,8 +21,9 @@ Full-stack web application demonstrating OAuth2 authentication, user management,
 - **UI library:** HeroUI
 
 ## Backend
-- **server:** Node.js, Express, TypeScript
-- **database:** MongoDB, Mongoose
+- **Server:** .NET 10, ASP.NET Core Minimal API, C#
+- **Database:** MongoDB
+- **Hosted on:** Railway
 
 ## Live Demo
 
