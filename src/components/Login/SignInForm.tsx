@@ -5,11 +5,7 @@ import { INPUT_STYLES } from "@/constants/inputStyles";
 import { useSignInForm } from "@/hooks/useSignInForm";
 import { Button, Input } from "@heroui/react";
 
-interface SignInFormProps {
-    csrfToken?: string;
-}
-
-export function SignInForm(props: SignInFormProps){
+export function SignInForm(){
     const { error, isSubmitting, handleSubmit } = useSignInForm();
 
     return (
