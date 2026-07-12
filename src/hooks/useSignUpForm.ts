@@ -118,7 +118,6 @@ export function useSignUpForm() {
     return {
         error,
         isSubmitting,
-        handleSubmit,
-        passwordRulesMessage: PASSWORD_RULES_MESSAGE,
+        handleSubmit
     };
 }

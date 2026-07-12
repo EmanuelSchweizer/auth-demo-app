@@ -7,7 +7,7 @@ import { Button, Input } from "@heroui/react";
 import Link from "next/link";
 
 export function SignUpForm() {
-    const { error, isSubmitting, handleSubmit, passwordRulesMessage } = useSignUpForm();
+    const { error, isSubmitting, handleSubmit } = useSignUpForm();
 
     return (
         <form
@@ -38,9 +38,6 @@ export function SignUpForm() {
                 placeholder="Confirm password"
                 className={INPUT_STYLES.primary}
             />
-            <p className="text-xs font-medium text-gray-600">
-                {passwordRulesMessage}
-            </p>
             {error && (
                 <span className="p-1 mb-2 text-sm font-medium text-red-700 bg-red-500/15 rounded-md">
                     {error}
