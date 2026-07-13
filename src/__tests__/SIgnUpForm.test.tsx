@@ -107,4 +107,76 @@ describe('SignUpForm', () => {
         expect(mockRefresh).toHaveBeenCalled();
         expect(screen.queryByText(/Sign up failed./i)).not.toBeInTheDocument();
     });
+
+    it('displays generic error message on failed sign up', async () => {
+        mockFetch.mockResolvedValueOnce({
+            ok: false,
+            json: async () => ({}),
+        } as Response);
+        const user = userEvent.setup();
+        render(<SignUpForm />);
+
+        await user.type(screen.getByPlaceholderText(/Name/i), 'Already Existing User');
+        await user.type(screen.getByPlaceholderText(/Email/i), 'alreadyexisting@example.com');
+        await user.type(screen.getByPlaceholderText('Password'), 'ValidPass123!');
+        await user.type(screen.getByPlaceholderText(/Confirm password/i), 'ValidPass123!');
+        await user.click(screen.getByRole('button', { name: /Sign Up/i }));
+
+        expect(await screen.findByText(/Sign up failed./i)).toBeInTheDocument();
+        expect(mockPush).not.toHaveBeenCalled();
+        expect(mockRefresh).not.toHaveBeenCalled();
+    });
+
+    it('sign up fails when the email is already in use', async () => {
+        mockFetch.mockResolvedValueOnce({
+            ok: false,
+            json: async () => ({ message: 'User already exists', status: 409 }),
+        } as Response);
+        const user = userEvent.setup();
+        render(<SignUpForm />);
+
+        await user.type(screen.getByPlaceholderText(/Name/i), 'New User');
+        await user.type(screen.getByPlaceholderText(/Email/i), 'alreadyexisting@example.com');
+        await user.type(screen.getByPlaceholderText('Password'), 'ValidPass123!');
+        await user.type(screen.getByPlaceholderText(/Confirm password/i), 'ValidPass123!');
+        await user.click(screen.getByRole('button', { name: /Sign Up/i }));
+
+        expect(await screen.findByText(/User already exists/i)).toBeInTheDocument();
+        expect(mockPush).not.toHaveBeenCalled();
+        expect(mockRefresh).not.toHaveBeenCalled();
+    });
+
+    it('sign up successfully but sign in fails', async () => {
+        mockFetch.mockResolvedValueOnce({
+            ok: true,
+            json: async () => ({}),
+        } as Response);
+        mockSignIn.mockResolvedValueOnce({ error: 'error', ok: false });
+        const user = userEvent.setup();
+        render(<SignUpForm />);
+
+        await user.type(screen.getByPlaceholderText(/Name/i), 'Test User');
+        await user.type(screen.getByPlaceholderText(/Email/i), 'test@example.com');
+        await user.type(screen.getByPlaceholderText('Password'), 'ValidPass123!');
+        await user.type(screen.getByPlaceholderText(/Confirm password/i), 'ValidPass123!');
+        await user.click(screen.getByRole('button', { name: /Sign Up/i }));
+        await waitFor(() => expect(mockPush).toHaveBeenCalledWith('/signIn'));
+        expect(mockRefresh).toHaveBeenCalled();
+    })
+
+    it('fetch throws network error', async () => {
+        mockFetch.mockRejectedValueOnce(new Error('Network error'));
+        const user = userEvent.setup();
+        render(<SignUpForm />);
+
+        await user.type(screen.getByPlaceholderText(/Name/i), 'Test User');
+        await user.type(screen.getByPlaceholderText(/Email/i), 'test@example.com');
+        await user.type(screen.getByPlaceholderText('Password'), 'ValidPass123!');
+        await user.type(screen.getByPlaceholderText(/Confirm password/i), 'ValidPass123!');
+        await user.click(screen.getByRole('button', { name: /Sign Up/i }));
+
+        expect(await screen.findByText(/Sign up failed./i)).toBeInTheDocument();
+        expect(mockPush).not.toHaveBeenCalled();
+        expect(mockRefresh).not.toHaveBeenCalled();
+    });
 });
