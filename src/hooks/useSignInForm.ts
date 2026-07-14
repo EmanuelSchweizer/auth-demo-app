@@ -42,11 +42,13 @@ export function useSignInForm() {
 
             // Refresh to ensure session is fully loaded before redirecting
             router.refresh();
-            
+
             // Small delay to allow session to be established
             await new Promise(resolve => setTimeout(resolve, 100));
-            
+
             router.push("/");
+        } catch {
+            setError("An unexpected error occurred. Please try again.");
         } finally {
             setIsSubmitting(false);
         }

@@ -20,11 +20,6 @@ const mockFetch = jest.fn();
 global.fetch = mockFetch as unknown as typeof fetch;
 const mockSignIn = signIn as jest.Mock;
 
-mockFetch.mockResolvedValue({
-    ok: true,
-    json: async () => ({}),
-} as Response);
-
 describe('SignUpForm', () => {
     beforeEach(() => {
         jest.resetAllMocks();
@@ -50,7 +45,7 @@ describe('SignUpForm', () => {
         await user.type(screen.getByPlaceholderText(/Confirm password/i), 'weakpass');
         await user.click(screen.getByRole('button', { name: /Sign Up/i }));
 
-        expect(screen.getByText(/Password must be at least 10 characters and include uppercase, lowercase, number, and special character./i)).toBeInTheDocument();
+        expect(await screen.findByText(/Password must be at least 10 characters and include uppercase, lowercase, number, and special character./i)).toBeInTheDocument();
     });
 
     it('displays empty fields error message', async () => {

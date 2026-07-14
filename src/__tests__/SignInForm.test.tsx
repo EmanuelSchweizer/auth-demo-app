@@ -51,5 +51,42 @@ describe('SignInForm', () => {
 
     expect(await screen.findByText(/Invalid email or password./i)).toBeInTheDocument();
     expect(mockPush).not.toHaveBeenCalled();
+    expect(mockRefresh).not.toHaveBeenCalled();
   });
+
+  it('throws a network error and shows a generic error message', async () => {
+    mockSignIn.mockRejectedValue({ error: 'network', ok: false });
+    const user = userEvent.setup();
+    render(<SignInForm />);
+
+    await user.type(screen.getByPlaceholderText(/Email/i), 'example@example.com')
+    await user.type(screen.getByPlaceholderText(/Password/i), 'examplePassword123')
+    await user.click(screen.getByRole('button', { name: /Log In/i }));
+
+    expect(await screen.findByText(/An unexpected error occurred. Please try again./i)).toBeInTheDocument()
+    expect(mockPush).not.toHaveBeenCalled();
+    expect(mockRefresh).not.toHaveBeenCalled();
+  })
+
+  it('resets the error message after second submit', async () => {
+    mockSignIn.mockResolvedValue({ error: 'error', ok: false });
+    const user = userEvent.setup();
+    render(<SignInForm />);
+
+    await user.type(screen.getByPlaceholderText(/Email/i), 'wrong@email.com')
+    await user.type(screen.getByPlaceholderText(/Password/i), 'wrongPassword')
+    await user.click(screen.getByRole('button', { name: /Log In/i }));
+
+    expect(await screen.findByText(/Invalid email or password./i)).toBeInTheDocument()
+
+    mockSignIn.mockResolvedValue({ error: undefined, ok: true });
+    await user.clear(screen.getByPlaceholderText(/Email/i));
+    await user.clear(screen.getByPlaceholderText(/Password/i));
+    await user.type(screen.getByPlaceholderText(/Email/i), 'right@email.com')
+    await user.type(screen.getByPlaceholderText(/Password/i), 'rightPassword')
+    await user.click(screen.getByRole('button', { name: /Log In/i }));
+
+    expect(screen.queryByText(/Invalid email or password./i)).not.toBeInTheDocument();
+    await waitFor(() => expect(mockPush).toHaveBeenCalledWith('/'));
+  })
 });
