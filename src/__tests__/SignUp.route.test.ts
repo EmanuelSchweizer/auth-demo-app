@@ -36,7 +36,7 @@ describe("POST /api/auth/signUp", () => {
             json: async () => ({ message: "User already exists" }),
         } as Response);
 
-        const response = await POST(createRequest({ name: "Existenza", email: "existing@example.com", password: "ValidPass123!" }))
+        const response = await POST(createRequest({ name: "Existing User", email: "existing@example.com", password: "ValidPass123!" }))
         const body = await response.json();
 
         expect(response.status).toBe(409)
