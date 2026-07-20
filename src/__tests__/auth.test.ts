@@ -2,7 +2,8 @@
  * @jest-environment node
  */
 import { authOptions } from "@/auth";
-import { Account } from "next-auth";
+import { Account, Session } from "next-auth";
+import { AdapterUser } from "next-auth/adapters";
 import { JWT } from "next-auth/jwt";
 
 const mockFetch = jest.fn();
@@ -70,7 +71,7 @@ describe('authorize', () => {
     })
 })
 
-describe("jwt/session callbacks", () => {
+describe("jwt callback", () => {
     beforeEach(() => {
         jest.resetAllMocks();
     })
@@ -80,7 +81,7 @@ describe("jwt/session callbacks", () => {
         const user = { id: "1", name: "Test User", isAdmin: true, password: "123456ABCdef." }
         const account = { providerAccountId: "123", provider: "credentials", type: "credentials" } as Account
 
-        const result = await jwt({ token: token, user: user, account: account })
+        const result = await jwt({ token, user, account })
 
         expect(mockFetch).not.toHaveBeenCalled()
         expect(result).toEqual({ userId: "1", name: "Test User", email: "test@example.com", isAdmin: true })
@@ -99,12 +100,12 @@ describe("jwt/session callbacks", () => {
         const user = { id: "", name: "Test User", email: "test@defaultuser.com", password: "123456ABCdef." }
         const account = { providerAccountId: "123", provider: "credentials", type: "credentials" } as Account
 
-        const result = await jwt({ token: token, user: user, account: account })
+        const result = await jwt({ token, user, account })
 
         expect(result).toEqual({ userId: "2", isAdmin: false, name: "Test User", email: "test@defaultuser.com" })
     })
 
-    it("Do not set token token.userId/token.isAdmin when the backend returns 500", async () => {
+    it("do not set token token.userId/token.isAdmin when the backend returns 500", async () => {
         mockFetch.mockResolvedValue({
             ok: false, status: 500, json: async () => ({})
         })
@@ -112,8 +113,60 @@ describe("jwt/session callbacks", () => {
         const user = { id: "", name: "Test User", email: "test@defaultuser.com", password: "123456ABCdef." }
         const account = { providerAccountId: "123", provider: "credentials", type: "credentials" } as Account
 
-        const result = await jwt({ token: token, user: user, account: account })
+        const result = await jwt({ token, user, account })
 
         expect(result).toEqual({ name: "Test User", email: "test@defaultuser.com" })
+    })
+})
+
+describe("session callback", () => {
+    beforeEach(() => {
+        jest.resetAllMocks();
+    })
+
+    it("returns session user id when token contains id", async () => {
+        const sessionObject = {
+            user: {
+
+            },
+            expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString()
+        } as Session
+        const token = { userId: "3", name: "Admin User", email: "admin@example.com", isAdmin: true } as JWT
+
+        const result = await session({ 
+            session: sessionObject, 
+            token, 
+            user: {} as any, 
+            newSession: undefined, 
+            trigger: "update"
+        })
+
+        expect(result.user).toEqual({ 
+            id: "3",
+            isAdmin: true
+        })
+    })
+
+    it("returns session user without id when token doesn't contain id", async () => {
+        const sessionObject = {
+            user: {
+
+            },
+            expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString()
+        } as Session
+        const token = { userId: "" } as JWT
+
+        const result = await session({ 
+            session: sessionObject, 
+            token, 
+            user: {} as any, 
+            newSession: undefined, 
+            trigger: "update"
+        })
+
+        expect(result.user).toEqual({
+            id: "",
+            isAdmin: false
+        })
     })
 })

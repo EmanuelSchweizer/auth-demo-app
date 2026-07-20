@@ -14,7 +14,7 @@ export const authOptions: NextAuthOptions = {
         async jwt({ token, user, account }) {
             const userFromSignIn = user as { id?: string; isAdmin?: boolean } | undefined;
             const isCredentialsSignIn = account?.provider === "credentials";
-
+ 
             if (userFromSignIn?.id && isCredentialsSignIn) {
                 token.userId = userFromSignIn.id;
                 token.isAdmin = userFromSignIn.isAdmin ?? false;
