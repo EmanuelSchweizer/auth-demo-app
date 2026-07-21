@@ -1,7 +1,8 @@
 # Full-Stack Auth System with User Management
 
 ## Overview
-Full-stack web application demonstrating OAuth2 authentication, user management, and role-based access.
+
+A full-stack shopping list app I built to get hands-on with OAuth2 authentication, user management, and role-based access from both the frontend and backend side.
 
 ## Key Features
 
@@ -15,15 +16,19 @@ Full-stack web application demonstrating OAuth2 authentication, user management,
 
 ## Tech Stack
 
-## Frontend
+### Frontend
 - **Framework:** Next.js, React, TypeScript
 - **Styling:** Tailwind CSS
 - **UI library:** HeroUI
 
-## Backend
+### Backend
 - **Server:** .NET 10, ASP.NET Core Minimal API, C#
 - **Database:** MongoDB
 - **Hosted on:** Railway
+
+## Testing
+
+I wrote a Jest test suite covering both sides of the app, frontend component/integration tests (React Testing Library) for the sign-in/sign-up flows and state management, and backend tests for the API routes and auth logic (credentials login, JWT, sessions).
 
 ## Live Demo
 
