@@ -21,7 +21,7 @@ export const AddNewItem = () => {
                 <span>Add new item</span>
             </span>
         </Button>
-        <AddNewItemModal isOpen={isOpen} setIsOpen={setIsOpen} />
+        <AddNewItemModal key={isOpen ? "open" : "closed"} isOpen={isOpen} setIsOpen={setIsOpen} />
         </>
     )
 }

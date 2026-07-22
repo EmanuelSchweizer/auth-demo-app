@@ -11,8 +11,6 @@ export const useLoadShoppingList = () => {
     const { setShoppingItems } = useShoppingItemsStore();
 
     useEffect(() => {
-        setError("");
-        setLoading(true);
         GetData().then((result) => {
             if (result.success) {
                 setShoppingItems(result.data);
