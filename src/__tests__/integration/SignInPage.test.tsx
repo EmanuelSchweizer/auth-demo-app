@@ -27,11 +27,11 @@ describe("SignInPage", () => {
     it("renders SignInPage", async () => {
         render(<SignInPage />)
 
-        expect(await screen.getByRole('button', { name: /Sign in with Google/i })).toBeInTheDocument();
-        expect(await screen.getByPlaceholderText(/Email/i)).toBeInTheDocument();
-        expect(await screen.getByPlaceholderText(/Password/i)).toBeInTheDocument();
-        expect(await screen.getByRole('button', { name: /Log in/i })).toBeInTheDocument();
-        const createAccountLink = await screen.getByRole('link', { name: /Create an account/i })
+        expect(screen.getByRole('button', { name: /Sign in with Google/i })).toBeInTheDocument();
+        expect(screen.getByPlaceholderText(/Email/i)).toBeInTheDocument();
+        expect(screen.getByPlaceholderText(/Password/i)).toBeInTheDocument();
+        expect(screen.getByRole('button', { name: /Log in/i })).toBeInTheDocument();
+        const createAccountLink = screen.getByRole('link', { name: /Create an account/i })
         expect(createAccountLink).toBeInTheDocument()
         expect(createAccountLink).toHaveAttribute('href', '/signUp')
     })
