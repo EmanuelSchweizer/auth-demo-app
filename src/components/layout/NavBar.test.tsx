@@ -79,8 +79,8 @@ describe("NavBar", () => {
     })
 
     it("does not display admin panel link when userRole is user", async () => {
-        mockUsePathName.mockReturnValue("/")
         const user = userEvent.setup()
+        mockUsePathName.mockReturnValue("/")
         mockUseSession.mockReturnValue({
             data: { user: { id: "1", isAdmin: false, roleName: "user" }, expires: "999_999_999" } as Session,
             status: "authenticated",
