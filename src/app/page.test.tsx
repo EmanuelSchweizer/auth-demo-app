@@ -1,5 +1,4 @@
-import { showSuccessToast } from '@/components/ui/toast';
-import { addShoppingList, deleteShoppingList, getAllShoppingLists, updateShoppingList, } from '@/features/shoppingLists/actions';
+import { deleteShoppingList, getAllShoppingLists, updateShoppingList, } from '@/features/shoppingLists/actions';
 import { useShoppingListsStore } from '@/features/shoppingLists/store';
 import { UpdateShoppingList } from '@/features/shoppingLists/types';
 import { ShoppingList } from '@/types';
@@ -29,10 +28,7 @@ jest.mock("@/components/ui/toast", () => ({
 const mockGetAllShoppingLists = getAllShoppingLists as jest.Mock;
 const mockUpdateShoppingList = updateShoppingList as jest.Mock;
 const mockDeleteShoppingList = deleteShoppingList as jest.Mock;
-const mockAddShoppingList = addShoppingList as jest.Mock;
 const mockUseSession = useSession as jest.Mock;
-
-const mockShowSuccessToast = showSuccessToast as jest.Mock;
 
 const exampleShoppingLists: ShoppingList[] = [
     {
