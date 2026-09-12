@@ -2,7 +2,6 @@
 
 import { useMemo } from "react"
 import { useShoppingListsStore } from "../../store"
-import { BackToListsButton } from "./BackToListsButton"
 import { ListTitle } from "./ListTitle"
 import { ListItems } from "./ListItems"
 
